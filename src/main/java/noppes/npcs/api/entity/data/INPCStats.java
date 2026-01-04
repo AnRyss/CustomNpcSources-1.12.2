@@ -15,17 +15,12 @@ public interface INPCStats {
 	boolean getImmune(int type);
 
 	// New
-	int getLevel();
-
 	int getMaxHealth();
 
 	INPCMelee getMelee();
 
 	INPCRanged getRanged();
 
-	int getRarity();
-
-	String getRarityTitle();
 
 	float getResistance(int type);
 
@@ -43,20 +38,13 @@ public interface INPCStats {
 
 	void setCreatureType(int type); // (0=Normal, 1=Undead, 2=Arthropod) Only used for damage calculations with
 									// enchants
-
 	void setHealthRegen(int regen);
 
 	void setHideDeadBody(boolean hide);
 
 	void setImmune(int type, boolean bo);
 
-	void setLevel(int level);
-
 	void setMaxHealth(int maxHealth);
-
-	void setRarity(int rarity);
-
-	void setRarityTitle(String rarity);
 
 	void setResistance(int type, float value);
 

@@ -207,12 +207,6 @@ implements ITextfieldListener, IGuiData {
 		this.addButton(new GuiNpcButton(22, this.guiLeft + 217, y, 56, 20, new String[] { "gui.no", "gui.yes" },
 				(this.stats.ignoreCobweb ? 0 : 1)));
 		//this.getButton(40).setEnabled(false);
-		this.addLabel(new GuiNpcLabel(42, "stats.level", this.guiLeft + 139, this.guiTop + 37));
-		this.addButton(new GuiNpcButton(43, this.guiLeft + 217, this.guiTop + 54, 56, 20,
-				new String[] { "stats.rarity.normal", "stats.rarity.elite", "stats.rarity.boss" },
-				this.stats.getRarity())); // rarity
-		this.addLabel(new GuiNpcLabel(44, "stats.rarity", this.guiLeft + 140, this.guiTop + 61));
-
 		this.addLabel(new GuiNpcLabel(45, "stats.calmdown", this.guiLeft + 275, this.guiTop + 40));
 		this.addButton(new GuiNpcButton(44, this.guiLeft + 355, this.guiTop + 37, 50, 20,
 				new String[] { "gui.no", "gui.yes" }, (this.stats.calmdown ? 1 : 0)));

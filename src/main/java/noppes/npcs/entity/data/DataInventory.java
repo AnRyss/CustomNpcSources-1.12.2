@@ -603,7 +603,7 @@ INPCInventory {
 		private DataInventory npcInv;
 		public int questId;
 		public List<DropNbtSet> tags;
-		public boolean tiedToLevel;
+		public final boolean tiedToLevel;
 
 		public DropSet(DataInventory ni) {
 			this.npcInv = ni;
@@ -696,7 +696,7 @@ INPCInventory {
 		@Override
 		public IItemStack createLoot() {
 			ItemStack dItem = this.item.getMCItemStack().copy();
-			int lv = this.npcInv.npc.stats.getLevel();
+			int lv = 1;
 			// Amount
 			int a = amount[0];
 			if (this.amount[0] != this.amount[1]) {
@@ -957,12 +957,6 @@ INPCInventory {
 			}
 			return ItemStackWrapper.MCItem(NpcAPI.Instance().getIItemStack(ItemStack.EMPTY));
 		}
-
-		@Override
-		public boolean getTiedToLevel() {
-			return this.tiedToLevel;
-		}
-
 		@Override
 		public boolean hasCustomName() {
 			return false;
@@ -991,7 +985,7 @@ INPCInventory {
 			this.chance = nbtDS.getDouble("Chance");
 			this.damage = nbtDS.getFloat("DamageToItem");
 			this.lootMode = nbtDS.getBoolean("LootMode");
-			this.tiedToLevel = nbtDS.getBoolean("TiedToLevel");
+
 			this.questId = nbtDS.getInteger("QuestId");
 			int[] cnts = new int[2];
 			for (int i = 0; i < 2; i++) {
@@ -1070,7 +1064,7 @@ INPCInventory {
 			double ch = 85.0d;
 			this.damage = 1.0f;
 			this.lootMode = false;
-			this.tiedToLevel = false;
+
 			this.enchants = new ArrayList<EnchantSet>();
 			this.attributes = new ArrayList<AttributeSet>();
 			this.tags = new ArrayList<DropNbtSet>();
@@ -1207,10 +1201,7 @@ INPCInventory {
 			}
 		}
 
-		@Override
-		public void setTiedToLevel(boolean tied) {
-			this.tiedToLevel = tied;
-		}
+
 
 	}
 

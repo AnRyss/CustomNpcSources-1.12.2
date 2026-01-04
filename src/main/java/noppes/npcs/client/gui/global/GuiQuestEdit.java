@@ -15,11 +15,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import noppes.npcs.CustomNpcs;
 import noppes.npcs.NoppesUtilServer;
 import noppes.npcs.client.Client;
-import noppes.npcs.client.gui.SubGuiEditText;
-import noppes.npcs.client.gui.SubGuiMailmanSendSetup;
-import noppes.npcs.client.gui.SubGuiNpcCommand;
-import noppes.npcs.client.gui.SubGuiNpcFactionOptions;
-import noppes.npcs.client.gui.SubGuiNpcTextArea;
+import noppes.npcs.client.gui.*;
 import noppes.npcs.client.gui.questtypes.GuiNpcQuestTypeDialog;
 import noppes.npcs.client.gui.questtypes.GuiNpcQuestTypeKill;
 import noppes.npcs.client.gui.questtypes.GuiNpcQuestTypeLocation;
@@ -237,6 +233,10 @@ public class GuiQuestEdit extends SubGuiInterface
 			this.close();
 			break;
 		}
+            case 600: { // Навигационные координаты
+                this.setSubGui(new SubGuiQuestNavigation(this,quest));
+                break;
+            }
 		}
 	}
 
@@ -248,6 +248,9 @@ public class GuiQuestEdit extends SubGuiInterface
 			return;
 		}
 		if (!CustomNpcs.showDescriptions) { return; }
+        if (this.getButton(600) != null && this.getButton(600).isMouseOver()) {
+            this.setHoverText(new TextComponentTranslation("quest.hover.navigation").getFormattedText());
+        }
 		if (isMouseHover(i, j, this.guiLeft + 47, this.guiTop + 7, 123, 16)) {
 			this.setHoverText(new TextComponentTranslation("quest.hover.edit.quest.name").getFormattedText());
 		} else if (isMouseHover(i, j, this.guiLeft + 122, this.guiTop + 32, 46, 16)) {
@@ -379,6 +382,12 @@ public class GuiQuestEdit extends SubGuiInterface
 		this.addButton(new GuiNpcButton(5, this.guiLeft + 120, this.guiTop + 74, 50, 20,
 				this.quest.rewardItems.isEmpty() && this.quest.rewardExp <= 0 ? "selectServer.edit"
 						: "advanced.editingmode"));
+        //NavigationArrow
+        this.addButton(new GuiNpcButton(600, this.guiLeft+ 270, this.guiTop +170, 100, 20,
+                        "Навигация ✓"));
+
+
+
 		// tasks
 		// this.addLabel(new GuiNpcLabel(7, "gui.type", this.guiLeft + 174, this.guiTop
 		// + 62));
@@ -476,14 +485,6 @@ public class GuiQuestEdit extends SubGuiInterface
 		this.addLabel(lable);
 		this.addButton(new GuiNpcButton(22, this.guiLeft + 172, this.guiTop + 52, 90, 20,
 				new String[] { "quest.cancelable.true", "quest.cancelable.false" }, this.quest.isCancelable() ? 0 : 1));
-		// level
-		String[] lvls = new String[CustomNpcs.maxLv + 1];
-		lvls[0] = "gui.none";
-		for (int g = 1; g <= CustomNpcs.maxLv; g++) {
-			lvls[g] = "" + g;
-		}
-		this.addButton(
-				new GuiButtonBiDirectional(23, this.guiLeft + 269, this.guiTop + 5, 50, 20, lvls, this.quest.level));
 		// reset ID
 		this.addButton(new GuiNpcButton(24, this.guiLeft + 217, this.guiTop + 5, 50, 20, "quest.reset"));
 		// rewardText

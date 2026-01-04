@@ -289,10 +289,7 @@ implements ICustomScrollListener, ISubGuiListener, ITextfieldListener {
 				this.drop.setLootMode(button.getValue() == 1);
 				break;
 			}
-			case 11: { // tied mode
-				this.drop.setTiedToLevel(button.getValue() == 1);
-				break;
-			}
+
 		}
 	}
 

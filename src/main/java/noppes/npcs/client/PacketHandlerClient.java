@@ -442,9 +442,7 @@ extends PacketHandlerServer {
 			if (entity != null && entity instanceof EntityNPCInterface) {
 				NBTTagCompound compound = Server.readNBT(buffer);
 				EntityNPCInterface npcData = (EntityNPCInterface) entity;
-				npcData.stats.setLevel(compound.getInteger("NPCLevel"));
-				npcData.stats.setRarity(compound.getInteger("NPCRarity"));
-				npcData.stats.setRarityTitle(compound.getString("RarityTitle"));
+
 			}
 		} else if (type == EnumPacketClient.SET_GHOST_RECIPE) {
 			Container container = player.openContainer;
