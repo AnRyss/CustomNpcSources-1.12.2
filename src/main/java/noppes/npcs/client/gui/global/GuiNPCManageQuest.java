@@ -165,7 +165,7 @@ implements ISubGuiListener, ICustomScrollListener, GuiYesNoCallback {
 
 		if (this.scrollQuests == null) {
 			(this.scrollQuests = new GuiCustomScroll(this, 1)).setSize(170, 200);
-		}
+		} 
 		this.scrollQuests.setList(Lists.newArrayList(questData.keySet()));
 		this.scrollQuests.guiLeft = this.guiLeft + 175;
 		this.scrollQuests.guiTop = this.guiTop + 14;
