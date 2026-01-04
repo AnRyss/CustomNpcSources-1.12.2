@@ -380,9 +380,6 @@ public class PacketHandlerPlayer {
 			if (entity != null && entity instanceof EntityNPCInterface) {
 				NBTTagCompound compound = new NBTTagCompound();
 				EntityNPCInterface npcData = (EntityNPCInterface) entity;
-				compound.setInteger("NPCLevel", npcData.stats.getLevel());
-				compound.setInteger("NPCRarity", npcData.stats.getRarity());
-				compound.setString("RarityTitle", npcData.stats.getRarityTitle());
 				Server.sendData(player, EnumPacketClient.NPC_VISUAL_DATA, entityID, compound);
 			}
 		} else if (type == EnumPlayerPacket.IsMoved) {

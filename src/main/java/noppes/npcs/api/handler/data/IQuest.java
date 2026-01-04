@@ -19,7 +19,7 @@ public interface IQuest {
 	boolean getIsRepeatable();
 
 	// new
-	int getLevel();
+
 
 	String getLogText();
 
@@ -55,7 +55,7 @@ public interface IQuest {
 
 	void setForgetQuests(int[] forget);
 
-	void setLevel(int level);
+
 
 	void setLogText(String p0);
 

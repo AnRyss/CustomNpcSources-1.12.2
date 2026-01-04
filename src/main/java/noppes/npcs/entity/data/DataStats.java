@@ -145,16 +145,7 @@ implements INPCStats {
 		throw new CustomNPCsException("Unknown immune type: " + type, new Object[0]);
 	}
 
-	// new
-	@Override
-	public int getLevel() {
-		if (this.level < 1) {
-			this.level = 1;
-		} else if (this.level > CustomNpcs.maxLv) {
-			this.level = CustomNpcs.maxLv;
-		}
-		return this.level;
-	}
+
 
 	@Override
 	public int getMaxHealth() {
@@ -195,15 +186,7 @@ implements INPCStats {
 		return (int) Math.round(a * Math.pow(this.level, 2) + b);
 	}
 
-	@Override
-	public int getRarity() {
-		return this.rarity.ordinal();
-	}
 
-	@Override
-	public String getRarityTitle() {
-		return this.rarityTitle;
-	}
 
 	@Override
 	public float getResistance(int type) {
@@ -292,9 +275,6 @@ implements INPCStats {
 		this.melee.readFromNBT(compound);
 		this.ranged.readFromNBT(compound);
 		// New
-		this.level = compound.getInteger("NPCLevel");
-		this.rarity = EnumCreatureRarity.values()[compound.getInteger("NPCRarity")];
-		this.rarityTitle = compound.getString("RarityTitle");
 		this.calmdown = compound.getBoolean("CalmdownRange");
 	}
 	
@@ -349,15 +329,7 @@ implements INPCStats {
 		}
 	}
 
-	@Override
-	public void setLevel(int level) {
-		if (level < 1) {
-			level = 1;
-		} else if (level > CustomNpcs.maxLv) {
-			level = CustomNpcs.maxLv;
-		}
-		this.level = level;
-	}
+
 
 	@Override
 	public void setMaxHealth(int maxHealth) {
@@ -369,24 +341,8 @@ implements INPCStats {
 		this.npc.updateClient = true;
 	}
 
-	@Override
-	public void setRarity(int rarity) {
-		if (rarity < 0) {
-			rarity = 0;
-		} else if (rarity > EnumCreatureRarity.values().length) {
-			rarity = EnumCreatureRarity.values().length;
-		}
-		this.rarity = EnumCreatureRarity.values()[rarity];
-	}
 
-	@Override
-	public void setRarityTitle(String rarity) {
-		if (this.rarityTitle.equals(rarity)) {
-			return;
-		}
-		this.rarityTitle = rarity;
-		this.npc.updateClient = true;
-	}
+
 
 	@Override
 	public void setResistance(int type, float value) {

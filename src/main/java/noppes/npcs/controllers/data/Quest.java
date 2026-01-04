@@ -141,11 +141,7 @@ implements ICompatibilty, IQuest {
 		return this.repeat != EnumQuestRepeat.NONE;
 	}
 
-	// New
-	@Override
-	public int getLevel() {
-		return this.level;
-	}
+
 
 	@Override
 	public String getLogText() {
@@ -235,12 +231,6 @@ implements ICompatibilty, IQuest {
 	@Override
 	public String getTitle() {
 		String title = "";
-		if (this.level > 0) {
-			String chr = new String(Character.toChars(0x00A7));
-			title = chr + (this.level <= CustomNpcs.maxLv / 3 ? "2"
-					: (float) this.level <= (float) CustomNpcs.maxLv / 1.5f ? "e" : "c");
-			title += this.level + chr + "7 Lv.: " + chr + "r";
-		}
 		title += new TextComponentTranslation(this.title).getFormattedText();
 		return title;
 	}
@@ -313,7 +303,6 @@ implements ICompatibilty, IQuest {
 		this.factionOptions.readFromNBT(compound.getCompoundTag("QuestFactionPoints"));
 		this.mail.readNBT(compound.getCompoundTag("QuestMail"));
 		// New
-		this.level = compound.getInteger("QuestLevel");
 		this.cancelable = compound.getBoolean("Cancelable");
 		this.rewardText = compound.getString("AddRewardText");
 		this.step = compound.getInteger("Step");
@@ -367,12 +356,6 @@ implements ICompatibilty, IQuest {
 	public void setForgetQuests(int[] forget) {
 		this.forgetQuests = forget;
 	}
-
-	@Override
-	public void setLevel(int level) {
-		this.level = level;
-	}
-
 	@Override
 	public void setLogText(String text) {
 		this.logText = text;
@@ -447,7 +430,7 @@ implements ICompatibilty, IQuest {
 		compound.setTag("QuestFactionPoints", this.factionOptions.writeToNBT(new NBTTagCompound()));
 		compound.setTag("QuestMail", this.mail.writeNBT());
 		// New
-		compound.setInteger("QuestLevel", this.level);
+
 		compound.setBoolean("Cancelable", this.cancelable);
 		compound.setString("AddRewardText", this.rewardText);
 		compound.setInteger("Step", this.step);

@@ -103,20 +103,6 @@ implements ITextfieldListener, IGuiData {
 			case 40: {
 				this.save();
 				break;
-			} // New
-			case 41: {
-				this.stats.setLevel(1 + button.getValue());
-				this.setBaseStats();
-				break;
-			}
-			case 43: {
-				this.stats.setRarity(button.getValue());
-				this.setBaseStats();
-				break;
-			}
-			case 44: {
-				this.stats.calmdown = (button.getValue() == 1);
-				break;
 			}
 		}
 	}
@@ -158,106 +144,12 @@ implements ITextfieldListener, IGuiData {
 			this.setHoverText(new TextComponentTranslation("stats.hover.potion").getFormattedText());
 		} else if (this.getButton(22)!=null && this.getButton(22).isMouseOver()) {
 			this.setHoverText(new TextComponentTranslation("stats.hover.web").getFormattedText());
-		} else if (this.getButton(41)!=null && this.getButton(41).isMouseOver()) {
-			this.setHoverText(new TextComponentTranslation("stats.hover.level").getFormattedText());
-		} else if (this.getButton(43)!=null && this.getButton(43).isMouseOver()) {
-			this.setHoverText(new TextComponentTranslation("stats.hover.rarity").getFormattedText());
 		} else if (this.getButton(44)!=null && this.getButton(44).isMouseOver()) {
 			this.setHoverText(new TextComponentTranslation("stats.hover.battle").getFormattedText());
 		}
 	}
 
-	public double getHP() {
-		int[] corr = CustomNpcs.healthNormal;
-		if (this.stats.getRarity() == 1) {
-			corr = CustomNpcs.healthElite;
-		} else if (this.stats.getRarity() == 2) {
-			corr = CustomNpcs.healthBoss;
-		}
-		double a = ((double) corr[0] - (double) corr[1]) / (1 - Math.pow(CustomNpcs.maxLv, 2));
-		double b = (double) corr[0] - a;
-		double hp = Math.round(a * Math.pow(this.stats.getLevel(), 2) + b);
-		if (hp <= 1.0d) {
-			hp = 1.0d;
-		}
-		if (hp > 10000) {
-			hp = Math.ceil(hp / 100.0d) * 100.0d;
-		} else if (hp > 1000) {
-			hp = Math.ceil(hp / 25.0d) * 25.0d;
-		} else if (hp > 100) {
-			hp = Math.ceil(hp / 10.0d) * 10.0d;
-		} else if (hp > 50) {
-			hp = Math.ceil(hp / 5.0d) * 5.0d;
-		} else {
-			hp = Math.ceil(hp);
-		}
-		if (hp > (double) corr[1]) {
-			hp = (double) corr[1];
-		}
-		return hp;
-	}
-
-	public int getMellePower() {
-		int[] corr = CustomNpcs.damageNormal;
-		if (this.stats.getRarity() == 1) {
-			corr = CustomNpcs.damageElite;
-		} else if (this.stats.getRarity() == 2) {
-			corr = CustomNpcs.damageBoss;
-		}
-		double a = ((double) corr[0] - (double) corr[1]) / (1 - Math.pow(CustomNpcs.maxLv, 2));
-		double b = (double) corr[0] - a;
-		return (int) Math.round(a * Math.pow(this.stats.getLevel(), 2) + b);
-	}
-
-	public int getRangePower() {
-		int[] corr = CustomNpcs.damageNormal;
-		if (this.stats.getRarity() == 1) {
-			corr = CustomNpcs.damageElite;
-		} else if (this.stats.getRarity() == 2) {
-			corr = CustomNpcs.damageBoss;
-		}
-		double a = ((double) corr[2] - (double) corr[3]) / (1 - Math.pow(CustomNpcs.maxLv, 2));
-		double b = (double) corr[2] - a;
-		return (int) Math.round(a * Math.pow(this.stats.getLevel(), 2) + b);
-	}
-
-	public int[] getXP() {
-		float[] corr = new float[] { (float) CustomNpcs.experience[0], (float) CustomNpcs.experience[1],
-				(float) CustomNpcs.experience[2], (float) CustomNpcs.experience[3] };
-		int lv = this.stats.getLevel();
-		if (this.stats.getRarity() == 1) {
-			corr[0] *= 1.75f;
-			corr[1] *= 1.75f;
-			corr[2] *= 1.75f;
-			corr[3] *= 1.75f;
-		} else if (this.stats.getRarity() == 2) {
-			corr[0] *= 4.75f;
-			corr[1] *= 4.75f;
-			corr[2] *= 4.75f;
-			corr[3] *= 4.75f;
-		}
-		int subMinLv = CustomNpcs.maxLv / 3;
-		int subMaxLv = CustomNpcs.maxLv * 2 / 3;
-		float subMinXP = corr[1] / 3.0f;
-		float subMaxXP = corr[1] * 2.0f / 3.0f;
-		float subMinXPM = corr[3] / 3.0f;
-		float subMaxXPM = corr[3] * 2.0f / 3.0f;
-		double a = ((subMaxXP - corr[1]) * (1 - subMinLv) - (corr[0] - subMinXP) * (subMaxLv - CustomNpcs.maxLv))
-				/ ((subMaxLv - CustomNpcs.maxLv) * (Math.pow(subMinLv, 2) - 1)
-						- (1 - subMinLv) * (Math.pow(CustomNpcs.maxLv, 2) - Math.pow(subMaxLv, 2)));
-		double b = (corr[0] - subMinXP + a * (Math.pow(subMinLv, 2) - 1)) / (1 - subMinLv);
-		double c = corr[0] - a - b;
-		int min = (int) (Math.pow(lv, 2) * a + lv * b + c);
-		a = ((subMaxXPM - corr[3]) * (1 - subMinLv) - (corr[2] - subMinXPM) * (subMaxLv - CustomNpcs.maxLv))
-				/ ((subMaxLv - CustomNpcs.maxLv) * (Math.pow(subMinLv, 2) - 1)
-						- (1 - subMinLv) * (Math.pow(CustomNpcs.maxLv, 2) - Math.pow(subMaxLv, 2)));
-		b = (corr[2] - subMinXPM + a * (Math.pow(subMinLv, 2) - 1)) / (1 - subMinLv);
-		c = corr[2] - a - b;
-		int max = (int) (Math.pow(lv, 2) * a + lv * b + c);
-		return new int[] { min, max };
-	}
-
-	@Override
+    @Override
 	public void initGui() {
 		super.initGui();
 		int y = this.guiTop + 10;
@@ -314,21 +206,7 @@ implements ITextfieldListener, IGuiData {
 		this.addLabel(new GuiNpcLabel(22, "ai.cobwebAffected", this.guiLeft + 140, y + 5));
 		this.addButton(new GuiNpcButton(22, this.guiLeft + 217, y, 56, 20, new String[] { "gui.no", "gui.yes" },
 				(this.stats.ignoreCobweb ? 0 : 1)));
-		// new
-		String[] lvls = new String[CustomNpcs.maxLv]; // level
-		for (int g = 0; g < CustomNpcs.maxLv; g++) {
-			lvls[g] = "" + (g + 1);
-		}
-		//this.addButton(new GuiNpcButton(40, this.guiLeft + 217, this.guiTop +32, 56, 20, "selectServer.edit"));
-		this.addButton(new GuiButtonBiDirectional(41, this.guiLeft + 217, this.guiTop + 32, 56, 20, lvls,
-				this.stats.getLevel() - 1));
 		//this.getButton(40).setEnabled(false);
-		this.addLabel(new GuiNpcLabel(42, "stats.level", this.guiLeft + 139, this.guiTop + 37));
-		this.addButton(new GuiNpcButton(43, this.guiLeft + 217, this.guiTop + 54, 56, 20,
-				new String[] { "stats.rarity.normal", "stats.rarity.elite", "stats.rarity.boss" },
-				this.stats.getRarity())); // rarity
-		this.addLabel(new GuiNpcLabel(44, "stats.rarity", this.guiLeft + 140, this.guiTop + 61));
-
 		this.addLabel(new GuiNpcLabel(45, "stats.calmdown", this.guiLeft + 275, this.guiTop + 40));
 		this.addButton(new GuiNpcButton(44, this.guiLeft + 355, this.guiTop + 37, 50, 20,
 				new String[] { "gui.no", "gui.yes" }, (this.stats.calmdown ? 1 : 0)));
@@ -343,74 +221,7 @@ implements ITextfieldListener, IGuiData {
 		Client.sendData(EnumPacketServer.MainmenuInvSave, this.inventory.writeEntityToNBT(new NBTTagCompound()));
 	}
 
-	private void setBaseStats() {
-		int lv = this.stats.getLevel();
-		int type = this.stats.getRarity();
-		// Resistance and model size
-		if (!CustomNpcs.recalculateLR) { return; }
-		int[] sizeModel = CustomNpcs.modelRaritySize;
-		int time = 180;
-		float[] resist = new float[] { (float) CustomNpcs.resistanceNormal[0] / 100.0f,
-				(float) CustomNpcs.resistanceNormal[1] / 100.0f, (float) CustomNpcs.resistanceNormal[2] / 100.0f,
-				(float) CustomNpcs.resistanceNormal[3] / 100.0f };
-		if (type == 2) {
-			resist = new float[] { (float) CustomNpcs.resistanceBoss[0] / 100.0f,
-					(float) CustomNpcs.resistanceBoss[1] / 100.0f, (float) CustomNpcs.resistanceBoss[2] / 100.0f,
-					(float) CustomNpcs.resistanceBoss[3] / 100.0f };
-		} else if (type == 1) {
-			resist = new float[] { (float) CustomNpcs.resistanceElite[0] / 100.0f,
-					(float) CustomNpcs.resistanceElite[1] / 100.0f, (float) CustomNpcs.resistanceElite[2] / 100.0f,
-					(float) CustomNpcs.resistanceElite[3] / 100.0f };
-			if (lv <= 30) {
-				time = (int) (300.0d + (Math.round(((double) lv + 5.5d) / 10.0d) - 1.0d) * 60.0d);
-			} else {
-				time = 480;
-			}
-		} else {
-			if (lv <= 30) {
-				time = (int) (90.0d + (Math.round(((double) lv + 5.5d) / 10.0d) - 1.0d) * 30.0d);
-			} else {
-				time = 180;
-			}
-		}
-		this.display.setSize(sizeModel[type]);
-		this.stats.respawnTime = time;
-		this.stats.resistances.melee = resist[0];
-		this.stats.resistances.arrow = resist[1];
-		this.stats.resistances.explosion = resist[2];
-		this.stats.resistances.knockback = resist[3];
-		// Health
-		double hp = getHP();
-		this.stats.maxHealth = (int) hp;
-		this.npc.setHealth((float) hp);
-		this.stats.setHealthRegen((int) (Math.ceil(hp / 50.0d) * 10.0d));
-		// Power
-		this.stats.melee.setStrength(getMellePower());
-		this.stats.ranged.setStrength(getRangePower());
-		this.stats.ranged.setAccuracy((int) Math.round((lv + 94.3333d) / 1.4667d));
-		// Speed
-		double sp = Math.round((0.000081d * Math.pow(lv, 2) - 0.07272d * lv + 22.072639d) * 1.0d);
-		this.stats.melee.setDelay((int) sp);
-		this.stats.ranged.setDelay((int) sp, (int) sp * 2);
-		this.ais.setWalkingSpeed((int) Math.ceil((sp - 7) / 3));
-		// Experience
-		int[] xp = getXP();
-		this.inventory.setExp(xp[0], xp[1]);
-		// renaming
-		String rarity = "";
-		String chr = new String(Character.toChars(0x00A7));
-		if (type == 2) {
-			rarity += chr + "4Boss ";
-		} else if (type == 1) {
-			rarity += chr + "6Elite ";
-		}
-		rarity += chr + "7lv." + chr
-			+ (lv <= CustomNpcs.maxLv / 3 ? "2" : (float) lv <= (float) CustomNpcs.maxLv / 1.5f ? "6" : "4") + lv;
-		this.stats.setRarityTitle(rarity);
-		this.initGui();
-	}
-
-	@Override
+    @Override
 	public void setGuiData(NBTTagCompound compound) {
 		if (compound.hasKey("CreatureType", 3)) {
 			this.stats.readToNBT(compound);

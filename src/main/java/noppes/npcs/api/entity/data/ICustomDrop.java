@@ -33,8 +33,6 @@ public interface ICustomDrop {
 
 	int getQuestID();
 
-	boolean getTiedToLevel();
-
 	void remove();
 
 	void removeAttribute(IAttributeSet attribute);
@@ -57,6 +55,6 @@ public interface ICustomDrop {
 
 	void setQuestID(int id);
 
-	void setTiedToLevel(boolean lootMode);
+
 
 }

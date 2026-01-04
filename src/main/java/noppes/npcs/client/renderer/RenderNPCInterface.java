@@ -275,9 +275,7 @@ public class RenderNPCInterface<T extends EntityNPCInterface> extends RenderLivi
 				return;
 			}
 			Client.sendDataDelayCheck(EnumPlayerPacket.NpcVisualData, npc, 5000, npc.getEntityId());
-			if (!npc.stats.getRarityTitle().isEmpty()) {
-				this.renderLivingLabel(npc, d, d1 + npc.height - 0.06f * scale, d2, 64, "", npc.stats.getRarityTitle());
-			}
+
 		}
 	}
 }
